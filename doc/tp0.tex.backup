@@ -1,0 +1,261 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{graphicx}
+\usepackage[ansinew]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{listings}
+
+\title{		\textbf{Trabajo Pr\'{a}ctico 0: Infraestructura b\'{a}sica}}
+
+\author{	Hern\'{a}n Gonz\'{a}lez, \textit{Padr\'{o}n Nro. 79.460}		\\
+            \texttt{ gonzalezhg@yahoo.com.ar }						\\[2.5ex]
+            Pablo Magnaghi, \textit{Padr\'{o}n Nro. 88.126}				\\
+            \texttt{ pablomagnaghi@gmail.com }						\\[2.5ex]
+            Enzo Guagnini, \textit{Padr\'{o}n Nro. 88.325}				\\
+            \texttt{ enzog\_m@hotmail.com }						\\[2.5ex]
+            \normalsize{1er. Cuatrimestre de 2011}					\\
+            \normalsize{66.20 Organizaci\'{o}n de Computadoras  $-$ Pr\'{a}ctica Martes}\\
+            \normalsize{Facultad de Ingenier\'{i}a, Universidad de Buenos Aires}	\\
+       }
+
+\date{19/04/2011}
+
+\begin{document}
+
+\maketitle
+
+\thispagestyle{empty}
+
+\newpage
+\newpage
+
+\section{Introducci\'{o}n}
+Este art\'{i}culo se refiere a la implementaci\'{o}n de un programa desarrollado en lenguaje C, el cual es una versi\'{o}n simplificada del comando \texttt{tr} de UNIX.
+
+El mismo copi\'{a} caracteres desde \textit{stdin} a \textit{stdout} realizando sustituciones o eliminando caracteres seleccionados a trav\'{e}s de los argumentos del programa, detectando e imprimiendo errores por \textit{stderr} en caso de haberlos.
+
+\section{Enunciado}
+
+\subsection{Objetivos}
+Familiarizarse con las herramientas de software que usaremos en los siguientes  trabajos, implementado un programa (y su correspondiente documentaci\'{o}n) que resuelva el problema piloto que se presentar\'{a} m\'{a}s abajo.
+	
+\subsection{Alcance}
+Este trabajo pr\'{a}ctico es de elaboraci\'{o}n grupal, evaluaci\'{o}n individual, y de car\'{a}cter obligatorio para todos alumnos del curso.
+
+\subsection{Requisitos}
+El trabajo deber\'{a} ser entregado personalmente, en la fecha estipulada, con una  car\'{a}tula que contenga los datos completos de todos los integrantes. Adem\'{a}s, es necesario que el trabajo pr\'{a}ctico incluya (entre otras cosas), la presentaci\'{o}n de los resultados obtenidos, explicando, cuando corresponda, con fundamentos reales, las causas o razones de cada resultado obtenido.
+
+El informe deber\'{a} respetar el modelo de referencia que se encuentra en el grupo, y se valorar\'{a}n aquellos escritos usando la herramienta TEX / LATEX.
+
+\subsection{Recursos}
+Usaremos el programa GXemul para simular el entorno de desarrollo que utilizaremos en este y otros trabajos pr\'{a}cticos, una m\'{a}quina MIPS corriendo una versi\'{o}n reciente del sistema operativo NetBSD. 
+
+\newpage
+\newpage
+
+\subsection{Implementaci\'{o}n}
+\subsubsection{Programa}
+El programa a escribir en lenguaje C, es una versi\'{o}n minimalista del comando \texttt{tail} de UNIX. El mismo copia caracteres desde \textit{stdin} a \textit{stdout} realizando sustituciones o eliminando caracteres seleccionados a trav\'{e}s de los argumentos del programa.
+La funcionalidad a desarrollar consiste en:
+
+\begin{itemize}
+\item Traducci\'{o}n de caracteres.
+\item Sumarizaci\'{o}n de caracteres.
+\item Borrado de caracteres.
+\end{itemize}
+
+El programa recibe dos argumentos, \textit{string1} y \textit{string2}, y los usa para operar sobre los
+
+El programa recibe dos argumentos, \textit{string1} y \textit{string2}, y los usa para operar sobre los caracteres leidos de \textit{stdin}.La traducci\'{o}n de caracteres se realiza a partir de la posici\'{o}n de un caracter leido de \textit{stdin} en \textit{string1}, reemplazandolo por el caracter en la misma posici\'{o}n de \textit{string2}.
+La sumarizaci\'{o}n de caracteres se realiza a partir de los caracteres contenidos en \textit{string1}. Si un caracter leido de \textit{stdin} est\'{a} contenido en \textit{string1}, entonces el mismo debe escribirse en \textit{stdout} una sola vez.
+Para el borrado de caracteres no se escriben en \textit{stdout} aquellos que son leidos de \textit{stdin} y est\'{a}n contenidos en \textit{string1}.
+El programa devuelve 0 en caso de exito. Todos los errores deben escribirse en \textit{stderr}.
+
+\subsubsection{Consideraciones}
+
+\subsubsection{Combinaci\'{o}n de tareas}
+Estas tareas pueden o no estar superpuestas de la siguiente manera:\\
+\indent\texttt{tp0 -s string1 string2}: La sumarizaci\'{o}n de caracteres ocurre luego de la traducci\'{o}n.\\
+\indent\texttt{tp0 -sd string1 string2}: Se eliminan los caracteres contenidos en \textit{string1} y se sumarizan los contenidos en \textit{string2}.
+
+\subsubsection{Sobre la longitud de los argumentos}
+En caso de que la longitud de \textit{string1} sea mayor a la longitud de \textit{string2}, entonces se debe extender \textit{string2} con su \'{u}ltimo caracter hasta igualar las longitudes.
+
+\subsubsection{Ocurrencias en el primer argumento}
+En caso de que un caracter se repita en \textit{string1}, debe tomarse la \'{u}ltima ocurrencia al realizar la traducci\'{o}n.
+
+\newpage
+\newpage
+
+\subsubsection{Ejemplos}
+Primero, usamos la opci\'{o}n \indent\texttt{-h} para ver el mensaje de ayuda:
+
+\indent\texttt{\$ tp0 -h}\\
+\indent\texttt{Usage:}\\
+\indent\texttt{tp0 -h}\\
+\indent\texttt{tp0 -V}\\
+\indent\texttt{tp0 [options] string1 string2}\\
+\indent\texttt{tp0 [options] string1}\\
+\indent\texttt{Options:}\\
+\indent\texttt{-V, --version Print version and quit.}\\
+\indent\texttt{-h, --help Print this information and quit.}\\
+\indent\texttt{-d, --delete Delete characters in string1}\\
+\indent\texttt{-s, --squeeze Squeeze characters in input.}\\
+
+\indent\texttt{Examples:}\\
+
+\indent\texttt{tp0 abc 123 < alpha.txt}\\
+\indent\texttt{tp0 -ds 123456789 aeiou}\\
+
+\indent\texttt{\$ echo ``3.14159192'' | tp0 1 9}\\
+\indent\texttt{3.94959992}\\
+
+\indent\texttt{\$ tp0 aba 123 < text.txt}\\
+\indent\texttt{323}\\
+
+\indent\texttt{\$ echo ``aa bb cc'' | tp0 -s ab}\\
+\indent\texttt{a b cc}\\
+
+\indent\texttt{\$ echo ``aa bb cc'' | tp0 -s ab 12}\\
+\indent\texttt{1 2 cc}\\
+
+\indent\texttt{\$ echo ``Hola mundo'' |tp0 -d Ho}\\
+\indent\texttt{la mund}\\
+
+\indent\texttt{\$ echo ``aabbcc'' | tp0 -ds a b}\\
+\indent\texttt{bcc}\\
+
+\indent\texttt{\$ echo ``aaaa'' | tp0 -s a b}\\
+\indent\texttt{b}\\
+
+\newpage
+\newpage
+
+\subsubsection{Consideraciones}
+Ademas de la funcionalidad descripta en 5.1, puede implementarse los siguientes items:
+
+\begin{itemize}
+\item Opci\'{o}n \indent\texttt{-c}: COmplemento de los caracteres en el \textit{string1}.
+\item Conjunto de caracteres.
+\end{itemize}
+
+\subsubsection{Portabilidad}
+Como es usual, es necesario que la implementaci\'{o}n desarrollada provea un grado m\'{i}nimo de portabilidad. Para satisfacer esto, el programa deber\'{a} funcionar al menos en  NetBSD/pmax (usando el simulador GXEmul) y la versi\'{o}n de Linux usada para correr el simulador.
+
+\subsection{Informe}
+El informe deber\'{a} incluir:
+
+\begin{itemize}
+\item Documentaci\'{o}n relevante al dise\~no e implementaci\'{o}n del programa.
+\item Comando(s) para compilar el programa.
+\item Corridas de prueba y sus correspondientes comentarios.
+\item El c\'{o}digo fuente completo.
+\item El c\'{o}digo MIPS32 generado por el compilador.
+\item Este enunciado.
+\end{itemize}
+
+\section{Documentaci\'{o}n y dise\~no}
+La realizaci\'{o}n  de este informe se hizo con la herramienta TEX / LATEX. Tanto el arhivo en formato pdf como el archivo .tex se encuentran en la carpeta doc del cd entregado.
+
+Para el dise\~no se utiliz\'{o} un parseador, creado por nosotros, que sirve para analizar los argumentos que se le pasan al programa a trav\'{e}s de la l\'{i}nea de comandos.
+
+Luego se realiza la funci\'{o}n indicada y el programa devuelve errores en el caso correspondiente a trav\'{e}s de \textit{stderr}.
+
+\section{C\'{o}digos de retorno y mensajes de error}
+Si la ejecuci\'{o}n fue exitosa el c\'{o}digo de retorno es 0 (cero), de lo contrario se informa por \textit{stderr} el error ocurrido y se retorna un -1 (menos uno).
+
+\newpage
+\newpage
+
+\section{Casos de prueba}
+Los casos de prueba utilizados son los que figuran a continuaci\'{o}n.\\
+
+\indent\texttt{\$ echo ``3.14159192'' | ./tp0 1 9}\\
+\indent\texttt{3.94959992}\\
+
+\indent\texttt{\$ echo ``aba'' | ./tp0 aba 123}\\
+\indent\texttt{323}\\
+
+\indent\texttt{\$ echo ``aa bb cc'' | ./tp0 -s ab}\\
+\indent\texttt{a b cc}\\
+
+\indent\texttt{\$ echo ``aa bb cc'' | ./tp0 -s ab 12}\\
+\indent\texttt{1 2 cc}\\
+
+\indent\texttt{\$ echo ``Hola mundo'' | ./tp0 -d Ho}\\
+\indent\texttt{la mund}\\
+
+\indent\texttt{\$ echo ``aabbcc'' | ./tp0 -ds a b}\\
+\indent\texttt{bcc}\\
+
+\indent\texttt{\$ echo ``aaaa'' | ./tp0 -s a b}\\
+\indent\texttt{b}\\
+
+\indent\texttt{\$ echo ``bbb bbb'' | ./tp0 -s b}\\
+\indent\texttt{b b}\\
+
+\indent\texttt{\$echo ``bbbaaabb bbabbbbbbb'' | ./tp0 -ds b a}\\
+\indent\texttt{a a}\\
+
+\indent\texttt{\$echo "f" | ./tp0 aba def}\\
+\indent\texttt{f}\\
+
+\indent\texttt{\$echo "abaco" | ./tp0 -s a}\\
+\indent\texttt{abaco}\\
+
+\indent\texttt{\$echo "abbbbbabbaaaco" | ./tp0 -s a b}\\
+\indent\texttt{bco}\\
+
+\indent\texttt{\$echo "bbbbbbaaaaaaabbb" | ./tp0 -ds a b}\\
+\indent\texttt{b}\
+
+\indent\texttt{\$echo "abaco baco abaco" | ./tp0 a b}\\
+\indent\texttt{bbbco bbco bbbco}\
+
+\newpage
+\newpage
+
+\section{Instalaci\'{o}n}
+
+La instalaci\'{o}n se encuentra automatizada por medio de un script de shell.
+Para instalar el software se debe proceder de la siguiente manera:
+
+\begin{itemize}
+\item Descomprimir el archivo en la carpeta donde se desee realizar la instalaci\'{o}n.
+\item En el shell cambiar el directorio de trabajo actual hacia el directorio de instalaci\'{o}n.
+\item Ingresar la orden \$sh ./run.sh. Esto dispara el script que realiza la
+compilaci\'{o}n e instalaci\'{o}n del software. El binario es instalado en la carpeta bin del cd entregado.
+\end{itemize}
+
+\newpage
+\newpage
+
+\section{C\'{o}digo fuente}
+A contiuaci\'{o}n se detalla el c\'{o}digo fuente implementado en lenguaje C que se encuentra en carpeta code del cd entregado:
+\lstset{basicstyle=\scriptsize, commentstyle=\textit, numbers=left, numberstyle=\footnotesize, tabsize=4, breaklines=true}\\
+\lstset{language=C} 
+\lstset{extendedchars=false} 
+\lstinputlisting {../code/tp0.c}
+
+\subsection{C\'{o}digo MIPS generado por el compilador GCC}
+El siguiente es el c\'{o}digo assembly generado en el emulador \textit{GXemul}, corriendo una m\'{a}quina de arquitectura \textit{MIPS} con el sistema operativo \textit{NetBSD}\\ 
+que se encuentra en la carpeta code del cd entregado:
+\lstset{basicstyle=\scriptsize, commentstyle=\textit, numbers=left, numberstyle=\footnotesize, tabsize=4, breaklines=true}
+\lstinputlisting{../code/tp0.s}
+
+\newpage
+\newpage
+
+\section{Conclusiones}
+El presente logr\'{o} ser una introducci\'{o}n a distintas herramientas que se utilizar\'{a}n en la materia.
+Entre las actividades realizadas podemos resaltar:
+
+\begin{itemize}
+\item Compilar c\'{o}digo C utilizando gcc tanto en Linux como en NetBSD.
+\item Obtener el assembly generado por el compilador para la arquitectura MIPS.
+\item Utilizar el emulador GXemul para emular una maquina MIPS.
+\item Utilizar un tunel SSH tanto para trabajar en la consola del guest como para transferir archivos del host al guest y viceversa.
+\item Desarrollar el presente informe en LATEX.
+\end{itemize}
+
+\end{document}
